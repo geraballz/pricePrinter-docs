@@ -1,39 +1,48 @@
-# PrintPricer — Landing Page
+# \## 🖨️ PrintPricer v1.0 
 
-Sitio web estático listo para GitHub Pages.
+# 
 
-## Estructura
+# Calculadora de precios de impresión para talleres e `imprentas.` Analiza PDFs e imágenes página por página y calcula el costo según la cobertura real de tinta.
 
-```
-printpricer-landing/
-└── index.html    ← Página principal (logo embebido en base64)
-```
+# 
 
-## Cómo publicar en GitHub Pages
+# \### ✨ Características
 
-1. Crea un repositorio en GitHub (ej. `printpricer-landing`).
-2. Sube esta carpeta como contenido del repositorio.
-3. Ve a **Settings → Pages → Source → Deploy from branch → main / root**.
-4. Tu sitio estará disponible en: `https://TU-USUARIO.github.io/printpricer-landing/`
+# \- Análisis automático de PDFs e imágenes (PNG, JPG, BMP, TIF)
 
-## Actualizar el enlace de descarga
+# \- Detección de tipo de página: Texto B\&N, Texto Color, Imagen B\&N, Imagen Color
 
-En `index.html`, busca las dos líneas con:
+# \- Modelo de precio lineal según cobertura real de tinta
 
-```
-https://github.com/TU-USUARIO/TU-REPO/releases/latest/download/PrintPricer_Setup.exe
-```
+# \- Precio mixto en imágenes color según proporción cromática real
 
-Reemplaza `TU-USUARIO` y `TU-REPO` con tu usuario y repositorio de GitHub Releases
-donde alojes el instalador.
+# \- Páginas en blanco excluidas automáticamente
 
-## Alojar el instalador
+# \- Drag \& drop de archivos (Windows)
 
-1. En el repositorio del instalador, ve a **Releases → Create a new release**.
-2. Sube `PrintPricer_Setup.exe` como asset.
-3. El enlace de descarga directa será:
-   `https://github.com/TU-USUARIO/TU-REPO/releases/latest/download/PrintPricer_Setup.exe`
+# \- Tarifas configurables y persistentes
 
----
+# \- Compatible con Windows 10 / 11
 
-Sheeds Studios · spprtshds@gmail.com
+# 
+
+# \### 📥 Instalación
+
+# 1\. Descarga `PrintPricer\_Setup.exe`
+
+# 2\. Ejecuta el instalador y sigue las instrucciones
+
+# 3\. Al abrir la app por primera vez, copia tu \*\*Machine ID\*\* y contáctanos para obtener tu clave de activación
+
+# 
+
+# \### 📬 Activación
+
+# \*\*Facebook:\*\* facebook.com/profile.php?id=61574743820413
+
+# \*\*Correo:\*\* spprtshds@gmail.com
+
+
+
+
+
