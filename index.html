@@ -11,465 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
-
-  <style>
-    /* ── Reset & Base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --ink:      #0A0E1A;
-      --ink2:     #111827;
-      --panel:    #151E2D;
-      --blue:     #1565C0;
-      --blue-l:   #1E88E5;
-      --cyan:     #4FC3F7;
-      --cyan-dim: #1B3A52;
-      --orange:   #E65100;
-      --white:    #F0F6FF;
-      --muted:    #7B8FAB;
-      --border:   rgba(79,195,247,.15);
-      --grad:     linear-gradient(135deg, #0A0E1A 0%, #0D1A2E 60%, #0A0E1A 100%);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: "DM Sans", sans-serif;
-      background: var(--ink);
-      color: var(--white);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* ── Noise overlay ── */
-    body::before {
-      content: "";
-      position: fixed; inset: 0; z-index: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
-      background-size: 200px;
-      pointer-events: none;
-      opacity: .6;
-    }
-
-    /* ── Nav ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
-      height: 64px;
-      background: rgba(10,14,26,.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-brand {
-      display: flex; align-items: center; gap: .75rem;
-      text-decoration: none;
-    }
-    .nav-logo { width: 36px; height: 36px; border-radius: 8px; }
-    .nav-title {
-      font-family: "Bebas Neue", sans-serif;
-      font-size: 1.5rem; letter-spacing: .08em;
-      color: var(--white);
-    }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      color: var(--muted); font-size: .9rem; text-decoration: none;
-      transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--cyan); }
-    .nav-cta {
-      background: var(--blue); color: #fff;
-      padding: .45rem 1.1rem; border-radius: 8px;
-      font-size: .875rem; font-weight: 600; text-decoration: none;
-      transition: background .2s, transform .15s;
-    }
-    .nav-cta:hover { background: var(--blue-l); transform: translateY(-1px); }
-
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
-    }
-
-    /* ── Hero ── */
-    .hero {
-      position: relative; z-index: 1;
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 7rem clamp(1.5rem, 6vw, 6rem) 5rem;
-      text-align: center;
-      overflow: hidden;
-    }
-
-    /* Ink-splash background blobs */
-    .hero::after {
-      content: "";
-      position: absolute; inset: 0; z-index: -1;
-      background:
-        radial-gradient(ellipse 70% 50% at 20% 50%, rgba(21,101,192,.18) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 60% at 80% 30%, rgba(79,195,247,.10) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 40% at 60% 80%, rgba(230,81,0,.08) 0%, transparent 60%);
-    }
-
-    /* Grid lines subtle */
-    .hero-grid {
-      position: absolute; inset: 0; z-index: -1;
-      background-image:
-        linear-gradient(rgba(79,195,247,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(79,195,247,.04) 1px, transparent 1px);
-      background-size: 48px 48px;
-    }
-
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: .5rem;
-      background: var(--cyan-dim); border: 1px solid rgba(79,195,247,.3);
-      color: var(--cyan); font-size: .8rem; font-weight: 600; letter-spacing: .06em;
-      padding: .35rem 1rem; border-radius: 999px;
-      margin-bottom: 2rem;
-      animation: fadeUp .7s .1s both;
-    }
-    .hero-badge span { width: 6px; height: 6px; background: var(--cyan); border-radius: 50%; animation: pulse 2s infinite; }
-
-    .hero-logo {
-      width: clamp(110px, 14vw, 160px);
-      height: clamp(110px, 14vw, 160px);
-      border-radius: 28px;
-      margin-bottom: 2rem;
-      filter: drop-shadow(0 0 40px rgba(79,195,247,.25));
-      animation: fadeUp .7s .2s both;
-    }
-
-    .hero-title {
-      font-family: "Bebas Neue", sans-serif;
-      font-size: clamp(4rem, 11vw, 10rem);
-      line-height: .92;
-      letter-spacing: .04em;
-      background: linear-gradient(160deg, #fff 0%, var(--cyan) 60%, var(--blue-l) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 1rem;
-      animation: fadeUp .7s .3s both;
-    }
-
-    .hero-sub {
-      font-size: clamp(1rem, 2.5vw, 1.35rem);
-      color: var(--muted);
-      max-width: 560px;
-      line-height: 1.65;
-      margin-bottom: 2.8rem;
-      font-weight: 300;
-      animation: fadeUp .7s .4s both;
-    }
-
-    .hero-actions {
-      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
-      animation: fadeUp .7s .5s both;
-    }
-
-    .btn-download {
-      display: inline-flex; align-items: center; gap: .7rem;
-      background: linear-gradient(135deg, var(--blue) 0%, #0D47A1 100%);
-      color: #fff; text-decoration: none;
-      padding: .9rem 2rem; border-radius: 12px;
-      font-size: 1.05rem; font-weight: 600;
-      border: 1px solid rgba(255,255,255,.1);
-      box-shadow: 0 4px 32px rgba(21,101,192,.45), 0 1px 0 rgba(255,255,255,.1) inset;
-      transition: transform .2s, box-shadow .2s, background .2s;
-      position: relative; overflow: hidden;
-    }
-    .btn-download::before {
-      content: ""; position: absolute; inset: 0;
-      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.08) 100%);
-    }
-    .btn-download:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 40px rgba(21,101,192,.65), 0 1px 0 rgba(255,255,255,.1) inset;
-    }
-    .btn-download svg { flex-shrink: 0; }
-    .btn-download .dl-meta { display: flex; flex-direction: column; align-items: flex-start; }
-    .btn-download .dl-label { font-size: .75rem; opacity: .7; font-weight: 400; }
-    .btn-download .dl-text { font-size: 1rem; }
-
-    .btn-secondary {
-      display: inline-flex; align-items: center; gap: .6rem;
-      color: var(--cyan); text-decoration: none;
-      padding: .9rem 1.6rem; border-radius: 12px;
-      font-size: .95rem; font-weight: 500;
-      border: 1px solid var(--border);
-      background: rgba(79,195,247,.05);
-      transition: background .2s, border-color .2s, transform .2s;
-    }
-    .btn-secondary:hover {
-      background: rgba(79,195,247,.1);
-      border-color: rgba(79,195,247,.35);
-      transform: translateY(-2px);
-    }
-
-    .hero-os {
-      margin-top: 2.5rem;
-      color: var(--muted); font-size: .8rem;
-      display: flex; align-items: center; gap: .5rem;
-      animation: fadeUp .7s .65s both;
-    }
-    .hero-os-dot { width: 4px; height: 4px; background: var(--muted); border-radius: 50%; }
-
-    /* ── Scroll indicator ── */
-    .scroll-hint {
-      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: .4rem;
-      color: var(--muted); font-size: .75rem; letter-spacing: .08em;
-      animation: fadeUp .7s .9s both;
-    }
-    .scroll-arrow {
-      width: 24px; height: 24px;
-      border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted);
-      transform: rotate(45deg);
-      animation: bounce 2s infinite;
-    }
-
-    /* ── Stats strip ── */
-    .stats {
-      position: relative; z-index: 1;
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .stat-item {
-      background: var(--ink);
-      padding: 2rem 1.5rem; text-align: center;
-    }
-    .stat-num {
-      font-family: "Bebas Neue", sans-serif;
-      font-size: 2.8rem; color: var(--cyan);
-      line-height: 1;
-    }
-    .stat-label { font-size: .8rem; color: var(--muted); margin-top: .3rem; }
-
-    /* ── Sections common ── */
-    section { position: relative; z-index: 1; }
-    .section-inner {
-      max-width: 1100px; margin: 0 auto;
-      padding: 6rem clamp(1.5rem, 5vw, 3rem);
-    }
-    .eyebrow {
-      font-size: .75rem; font-weight: 700; letter-spacing: .15em;
-      color: var(--cyan); text-transform: uppercase;
-      margin-bottom: .75rem;
-    }
-    .section-title {
-      font-family: "Bebas Neue", sans-serif;
-      font-size: clamp(2.2rem, 5vw, 3.8rem);
-      line-height: 1; letter-spacing: .03em;
-      margin-bottom: 1rem;
-    }
-    .section-desc {
-      color: var(--muted); font-size: 1rem; max-width: 560px;
-      line-height: 1.7; margin-bottom: 3rem; font-weight: 300;
-    }
-
-    /* ── Features ── */
-    #features { background: var(--ink2); }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-    .feature-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.75rem;
-      transition: border-color .25s, transform .25s, box-shadow .25s;
-    }
-    .feature-card:hover {
-      border-color: rgba(79,195,247,.35);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,0,0,.4);
-    }
-    .feature-icon {
-      font-size: 2rem; margin-bottom: 1rem;
-      display: inline-flex;
-    }
-    .feature-name {
-      font-weight: 600; font-size: 1rem;
-      margin-bottom: .5rem; color: var(--white);
-    }
-    .feature-desc { color: var(--muted); font-size: .875rem; line-height: 1.65; }
-
-    /* ── How it works ── */
-    #how { background: var(--ink); }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2rem;
-      counter-reset: steps;
-    }
-    .step {
-      counter-increment: steps;
-      position: relative; padding-left: 0;
-    }
-    .step::before {
-      content: counter(steps, decimal-leading-zero);
-      font-family: "Bebas Neue", sans-serif;
-      font-size: 4rem; line-height: 1;
-      color: rgba(79,195,247,.12);
-      display: block; margin-bottom: .5rem;
-    }
-    .step-title { font-weight: 700; margin-bottom: .4rem; }
-    .step-desc { color: var(--muted); font-size: .875rem; line-height: 1.65; }
-
-    /* Connector line (desktop) */
-    @media (min-width: 768px) {
-      .steps { position: relative; }
-      .steps::before {
-        content: "";
-        position: absolute;
-        top: 2rem; left: 4rem; right: 4rem; height: 1px;
-        background: linear-gradient(90deg, transparent, var(--border), transparent);
-        z-index: 0;
-      }
-    }
-
-    /* ── Pricing model ── */
-    #pricing { background: var(--ink2); }
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
-    .price-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.75rem;
-      position: relative; overflow: hidden;
-    }
-    .price-card::after {
-      content: "";
-      position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--blue), var(--cyan));
-    }
-    .price-card.accent::after {
-      background: linear-gradient(90deg, var(--orange), #FF8F00);
-    }
-    .price-tag {
-      font-family: "JetBrains Mono", monospace;
-      font-size: .78rem; color: var(--cyan);
-      background: rgba(79,195,247,.1);
-      border: 1px solid rgba(79,195,247,.2);
-      border-radius: 6px;
-      padding: .25rem .6rem;
-      display: inline-block; margin-bottom: 1rem;
-    }
-    .price-card.accent .price-tag { color: #FFB74D; background: rgba(230,81,0,.1); border-color: rgba(230,81,0,.2); }
-    .price-card-title { font-weight: 700; font-size: 1rem; margin-bottom: .5rem; }
-    .price-card-desc { color: var(--muted); font-size: .875rem; line-height: 1.65; }
-    .price-formula {
-      margin-top: 1rem;
-      font-family: "JetBrains Mono", monospace;
-      font-size: .78rem;
-      background: rgba(0,0,0,.3);
-      border-left: 2px solid var(--cyan);
-      padding: .6rem .8rem;
-      border-radius: 0 6px 6px 0;
-      color: #B3E5FC;
-      line-height: 1.6;
-    }
-    .price-card.accent .price-formula { border-left-color: var(--orange); color: #FFE0B2; }
-
-    /* ── Download CTA ── */
-    #download {
-      background: linear-gradient(135deg, #0D1A2E 0%, #0A1628 50%, #0D1A2E 100%);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    .download-inner {
-      max-width: 760px; margin: 0 auto;
-      padding: 6rem clamp(1.5rem, 5vw, 3rem);
-      text-align: center;
-    }
-    .download-inner .section-title { font-size: clamp(2.5rem, 6vw, 5rem); }
-    .download-inner .section-desc { margin: 1rem auto 2.5rem; }
-    .download-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .version-note {
-      margin-top: 1.5rem;
-      color: var(--muted); font-size: .8rem;
-    }
-    .version-note code {
-      font-family: "JetBrains Mono", monospace;
-      background: rgba(79,195,247,.08);
-      padding: .15rem .4rem; border-radius: 4px;
-      color: var(--cyan);
-    }
-
-    /* ── Footer ── */
-    footer {
-      position: relative; z-index: 1;
-      background: var(--ink);
-      border-top: 1px solid var(--border);
-      padding: 3rem clamp(1.5rem, 5vw, 4rem);
-    }
-    .footer-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: flex; flex-wrap: wrap; gap: 2rem;
-      align-items: center; justify-content: space-between;
-    }
-    .footer-brand {
-      display: flex; align-items: center; gap: .75rem;
-    }
-    .footer-brand img { width: 32px; height: 32px; border-radius: 6px; }
-    .footer-brand-name { font-weight: 600; font-size: .95rem; }
-    .footer-brand-sub { font-size: .78rem; color: var(--muted); }
-    .footer-links { display: flex; gap: 2rem; }
-    .footer-links a {
-      color: var(--muted); font-size: .875rem; text-decoration: none;
-      transition: color .2s;
-    }
-    .footer-links a:hover { color: var(--cyan); }
-    .footer-copy { color: var(--muted); font-size: .78rem; width: 100%; margin-top: 1.5rem; text-align: center; }
-
-    /* ── Social pill ── */
-    .social-row {
-      display: flex; justify-content: center; gap: 1rem;
-      margin-top: 1.5rem;
-    }
-    .social-pill {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .5rem 1.1rem; border-radius: 999px;
-      font-size: .875rem; font-weight: 600; text-decoration: none;
-      transition: transform .2s, box-shadow .2s;
-    }
-    .social-pill:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.4); }
-    .social-fb { background: #1877F2; color: #fff; }
-
-    /* ── Animations ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; } 50% { opacity: .4; }
-    }
-    @keyframes bounce {
-      0%, 100% { transform: rotate(45deg) translateY(0); }
-      50%       { transform: rotate(45deg) translateY(6px); }
-    }
-
-    /* Intersection observer fade-in */
-    .reveal {
-      opacity: 0; transform: translateY(30px);
-      transition: opacity .6s ease, transform .6s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* ── Responsive ── */
-    @media (max-width: 500px) {
-      .btn-download { width: 100%; justify-content: center; }
-      .btn-secondary { width: 100%; justify-content: center; }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
@@ -498,11 +40,7 @@
     VERSIÓN 1.0 DISPONIBLE
   </div>
 
-  <img
-    class="hero-logo"
-    src="logo.png"
-    alt="PrintPricer"
-  />
+  <img class="hero-logo" src="logo.png" alt="PrintPricer" />
 
   <h1 class="hero-title">PrintPricer</h1>
 
@@ -572,7 +110,6 @@
       Diseñado específicamente para impresoras de tanque de tinta donde
       el costo real depende de cuánta tinta se consume, no de un precio fijo.
     </p>
-
     <div class="features-grid">
       <div class="feature-card reveal">
         <div class="feature-icon">📄</div>
@@ -611,7 +148,7 @@
       </div>
       <div class="feature-card reveal">
         <div class="feature-icon">📂</div>
-        <div class="feature-name">Drag & Drop</div>
+        <div class="feature-name">Drag &amp; Drop</div>
         <div class="feature-desc">En Windows, arrastra archivos directamente sobre la lista para agregarlos. Soporta PDF, PNG, JPG, BMP, TIF y más.</div>
       </div>
     </div>
@@ -623,10 +160,7 @@
   <div class="section-inner">
     <p class="eyebrow reveal">Cómo funciona</p>
     <h2 class="section-title reveal">Cuatro pasos<br>para cotizar</h2>
-    <p class="section-desc reveal">
-      Sin complicaciones. Configura una vez y cotiza en segundos.
-    </p>
-
+    <p class="section-desc reveal">Sin complicaciones. Configura una vez y cotiza en segundos.</p>
     <div class="steps">
       <div class="step reveal">
         <div class="step-title">Configura tus tarifas</div>
@@ -653,10 +187,7 @@
   <div class="section-inner">
     <p class="eyebrow reveal">Modelo de precios</p>
     <h2 class="section-title reveal">Justo para ti<br>y para tu cliente</h2>
-    <p class="section-desc reveal">
-      Cuatro tipos de página, cada uno con su modelo de cálculo óptimo.
-    </p>
-
+    <p class="section-desc reveal">Cuatro tipos de página, cada uno con su modelo de cálculo óptimo.</p>
     <div class="pricing-grid">
       <div class="price-card reveal">
         <div class="price-tag">TEXTO_BN</div>
@@ -691,7 +222,6 @@
       Descarga PrintPricer, instálalo en segundos y envíanos tu Machine ID
       para obtener tu clave de activación.
     </p>
-
     <div class="download-buttons">
       <a class="btn-download reveal" href="https://github.com/geraballz/pricePrinter-docs/releases/latest/download/PrintPricer_Setup.exe">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -706,7 +236,6 @@
         📖 Manual de usuario
       </a>
     </div>
-
     <div class="social-row reveal">
       <a class="social-pill social-fb" href="https://www.facebook.com/profile.php?id=61574743820413" target="_blank" rel="noopener">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
@@ -717,7 +246,6 @@
         spprtshds@gmail.com
       </a>
     </div>
-
     <p class="version-note reveal">
       Versión actual: <code>v1.0</code> &nbsp;·&nbsp;
       Requiere activación por Machine ID &nbsp;·&nbsp;
@@ -730,7 +258,6 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      
       <img src="logo.png" alt="PrintPricer" style="width:32px;height:32px;border-radius:6px;" />
       <div>
         <div class="footer-brand-name">Sheeds Studios</div>
@@ -748,25 +275,6 @@
   </div>
 </footer>
 
-<script>
-  // Intersection observer for reveal animations
-  const observer = new IntersectionObserver(
-    entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); observer.unobserve(e.target); } }),
-    { threshold: 0.12 }
-  );
-  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-
-  // Smooth nav highlight
-  const sections = document.querySelectorAll("section[id]");
-  const navLinks = document.querySelectorAll(".nav-links a");
-  window.addEventListener("scroll", () => {
-    let current = "";
-    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
-    navLinks.forEach(a => {
-      a.style.color = a.getAttribute("href") === "#" + current ? "var(--cyan)" : "";
-    });
-  });
-</script>
-
+<script src="main.js"></script>
 </body>
 </html>
